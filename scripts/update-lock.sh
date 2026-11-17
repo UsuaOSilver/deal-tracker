@@ -11,12 +11,13 @@ tmp=$(mktemp)
 trap 'rm -f "$tmp"' EXIT
 curl -fsSL "https://raw.githubusercontent.com/dgtlmoon/changedetection.io/$commit/requirements.txt" -o "$tmp"
 
-uv pip compile --quiet \
+uv pip compile --quiet --upgrade \
   --generate-hashes \
-  --python-version 3.11 \
+  --python-version 3.11.18 \
   --python-platform x86_64-manylinux_2_36 \
   --only-binary :all: \
   --no-binary feedgen \
+  --no-binary jstyleson \
   --no-header \
   --no-annotate \
   "$tmp" -o requirements.lock

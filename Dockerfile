@@ -19,13 +19,14 @@ ENV UV_LINK_MODE=copy \
     UV_PYTHON=/usr/local/bin/python3
 
 # Every package must match a hash in the lock file. Wheels only, except
-# feedgen, which publishes no wheel and is built from its hashed sdist.
+# feedgen and jstyleson, which publish no wheel and are built from hashed sdists.
 COPY requirements.lock /requirements.lock
 RUN uv pip install \
       --require-hashes \
       --no-deps \
       --only-binary :all: \
       --no-binary feedgen \
+      --no-binary jstyleson \
       --target=/dependencies \
       -r /requirements.lock
 
