@@ -1,0 +1,45 @@
+services:
+  changedetection:
+    build: .
+    image: deal-tracker/changedetection:fdce0842
+    container_name: deal-tracker
+    restart: unless-stopped
+
+    # Loopback only. Never publish this port to the LAN or the internet.
+    ports:
+      - "127.0.0.1:5000:5000"
+
+    user: "10001:10001"
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /tmp:size=256m,mode=1777
+    pids_limit: 256
+    mem_limit: 1g
+
+    volumes:
+      - datastore:/datastore
+
+    environment:
+      # Login hash from scripts/hash-password.py. Setting it here also locks
+      # the password so it cannot be changed or removed from the UI.
+      SALTED_PASS: ${SALTED_PASS:?Run scripts/hash-password.py and put SALTED_PASS in .env}
+      TZ: ${TZ:-UTC}
+      BASE_URL: http://127.0.0.1:5000
+      LOGGER_LEVEL: INFO
+      # No phone-home, no AI features, no MCP server.
+      DISABLE_VERSION_CHECK: "true"
+      LLM_FEATURES_DISABLED: "true"
+      DISABLE_MCP: "true"
+      LITELLM_FETCH_PRICING_FROM_GITHUB: "false"
+      # Never watch local files or private network addresses.
+      ALLOW_FILE_URI: "false"
+      ALLOW_IANA_RESTRICTED_ADDRESSES: "false"
+      HIDE_REFERER: "true"
+      PAGE_WATCH_LIMIT: "50"
+
+volumes:
+  datastore:
