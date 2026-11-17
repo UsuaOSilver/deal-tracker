@@ -19,6 +19,21 @@ docker compose up -d --build
 
 Open http://127.0.0.1:5000 and log in.
 
+Two containers run: the tracker, and headless Chrome (`browser`) that the
+tracker uses to load store pages. Chrome has no published port, no Linux
+capabilities, and is pinned by digest.
+
+## Adding a watch
+
+Store pages differ, so watches are set up per store:
+
+- **Walmart**: use the per-size or per-pack item page (each size has its own
+  `/ip/<id>`). Processor "Webpage text/HTML", fetch method "Chrome",
+  filter `span[itemprop="price"]`, and a condition
+  "Extracted number" `<` target price.
+- **Amazon, Best Buy, eBay, Target**: these block automated fetches. Their
+  watches are paused.
+
 ## Alerts (Telegram)
 
 1. In Telegram, message `@BotFather`, send `/newbot`, and keep the bot token.
@@ -63,5 +78,5 @@ weekly. To move to a new upstream commit:
 3. Run `scripts/update-lock.sh` (needs [uv](https://docs.astral.sh/uv/)) and review the diff.
 4. `docker compose up -d --build`
 
-Known open item: `soupsieve` 2.10 has three low-risk slowdown bugs. Upgrade
-once `beautifulsoup4` allows a fixed version.
+The Chrome image (`dgtlmoon/sockpuppetbrowser`) is pinned in
+`docker-compose.yml`; update its tag and digest together after review.
