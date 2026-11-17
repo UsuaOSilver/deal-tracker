@@ -31,6 +31,12 @@ Store pages differ, so watches are set up per store:
   `/ip/<id>`). Processor "Webpage text/HTML", fetch method "Chrome",
   filter `span[itemprop="price"]`, and a condition
   "Extracted number" `<` target price.
+  To cover every color in chosen sizes with one watch, use a jq filter on the
+  page's embedded data that returns the cheapest in-stock price, e.g.
+  `jq:first(.. | objects | select(has("variantsMap"))) | [.variantsMap[] | select(.availabilityStatus == "IN_STOCK") | select(any(.variants[]; test("^shoe_size-(m|men)(4|5|7|8|12)(w[0-9]+|/women[0-9]+)?$"))) | .priceInfo.currentPrice.price] | min`
+- **crocs.com**: processor "Re-stock & Price detection", fetch method
+  "Chrome", "Below price" set to the target. The price is the product's
+  lowest across colors and sizes, so check your size before buying.
 - **Amazon, Best Buy, eBay, Target**: these block automated fetches. Their
   watches are paused.
 
