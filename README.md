@@ -37,7 +37,12 @@ Store pages differ, so watches are set up per store:
 - **crocs.com**: processor "Re-stock & Price detection", fetch method
   "Chrome", "Below price" set to the target. The price is the product's
   lowest across colors and sizes, so check your size before buying.
-- **Amazon, Best Buy, eBay, Target**: these block automated fetches. Their
+- **"Anything under $X" list watches**: watch a store's search page and
+  reduce it to the matching items, so any new line triggers an alert.
+  Walmart and Shoe Carnival use a `jqraw:` filter on the page's embedded
+  product data; Zappos uses an "Extract text" regex on the product lines.
+- **Amazon, Best Buy, eBay, Kohl's, Dick's, Macy's, Academy**: these block
+  automated fetches. Target loads but renders products in the browser only. Their
   watches are paused.
 
 ## Alerts (Telegram)
