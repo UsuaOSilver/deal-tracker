@@ -160,7 +160,9 @@ Fill this in only if section 2 points to multiple agents.
 
 ## Open questions
 
-- Monthly cost budget for agent runs.
-- Whether to add a Telegram trigger ("watch X under $Y") or keep requests to the terminal.
-- If auto-buy is ever built: the spending cap, and the per-item approval step.
-- Which other Crocs stores to try for junior sizes (4-5J).
+- Monthly cost budget.
+- Should the agents keep running after Black Friday and Cyber Monday (Nov 27–Dec 1, 2026), for example through the holiday sales to early January 2027, or go on demand only?
+- Should requests be accepted from Telegram ("watch X under $Y") as well as the terminal? The bot token already sits in the tracker, but a Telegram trigger would let anyone who can message the bot create watches.
+- Is a second source needed for stores that block the tracker (Amazon, Best Buy, eBay, Kohl's, Dick's, Macy's, Academy)? Walmart, Zappos, Shoe Carnival and crocs.com cover the current items, but none of them sells plain Crocs in junior sizes (4-5J).
+- When does the manager get approval to delete or replace watches, for example when a listing goes dead (the Walmart All-Terrain page that returned 404) or a store changes its page layout?
+- If capped auto-buy is ever built: what is the spending cap, and is approval needed per item or per day?
