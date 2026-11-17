@@ -19,6 +19,16 @@ docker compose up -d --build
 
 Open http://127.0.0.1:5000 and log in.
 
+## Alerts (Telegram)
+
+1. In Telegram, message `@BotFather`, send `/newbot`, and keep the bot token.
+2. Send any message to the new bot, then open
+   `https://api.telegram.org/bot<TOKEN>/getUpdates` and note `chat.id`.
+3. In the tracker, go to Settings > Notifications and add
+   `tgram://<TOKEN>/<CHAT_ID>`, then press "Send test notification".
+
+The token is a secret. It lives only in the tracker's datastore, never in git.
+
 ## Hardening
 
 | Item | Where |
