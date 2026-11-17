@@ -40,6 +40,30 @@ services:
       ALLOW_IANA_RESTRICTED_ADDRESSES: "false"
       HIDE_REFERER: "true"
       PAGE_WATCH_LIMIT: "50"
+      # Store pages need a real browser. Chrome runs in its own container.
+      PLAYWRIGHT_DRIVER_URL: ws://browser:3000
+      FAST_PUPPETEER_CHROME_FETCHER: "true"
+    depends_on:
+      - browser
+
+  # Headless Chrome for pages that block plain HTTP clients. No published
+  # ports: only the tracker can reach it, over the compose network.
+  browser:
+    image: dgtlmoon/sockpuppetbrowser:0.0.5@sha256:71fed9b1de8de865a8f30c61e6d8d129de183bf34f8cc545dc7ae499198ec935
+    container_name: deal-tracker-browser
+    restart: unless-stopped
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    shm_size: 1g
+    pids_limit: 1024
+    mem_limit: 2g
+    environment:
+      SCREEN_WIDTH: "1920"
+      SCREEN_HEIGHT: "1080"
+      SCREEN_DEPTH: "16"
+      MAX_CONCURRENT_CHROME_PROCESSES: "2"
 
 volumes:
   datastore:
